@@ -2,7 +2,6 @@
 #include <unordered_map>
 #include <vector>
 
-using std::unordered_map;
 using std::vector;
 
 class Solution {

@@ -1,32 +1,43 @@
 #include <iostream>
 #include <string>
+#include <unordered_map>
+#include <stack>
 
+using std::unordered_map;
 using std::string;
+using std::stack;
 
 class Solution {
+private:
 public:
     bool isValid(string s) {
-        while(!s.empty()){
-            if(s.length() == 1){
-                return false;
-            }
-
-            bool valid = false;
-
-            for(int i = 0; i < s.length() - 1; i++){
-                string nextTwo;
-                nextTwo = s[i];
-                nextTwo += s[i+1];
-
-                if(nextTwo == "()" || nextTwo == "[]"  || nextTwo == "{}" ){
-                    s.erase(i,2);
-                    valid = true;
-                    break;
+        unordered_map<char, char> hashMap = {
+            {'}', '{'},
+            {')', '('},
+            {']', '['}
+        };
+    
+        stack<char> myStack;
+        
+        for(char &c : s){   /*range-based for loop. Great article:
+                             * https://www.cprogramming.com/c++11/c++11-ranged-for-loop.html
+                             * "if you want to avoid copying large objects,
+                             * and the underlying iterator supports it,
+                             * you can make the loop variable a reference."
+                             */
+            if (hashMap.count(c)){ // current char is a closing bracket
+                if(myStack.empty()){
+                    return false;
+                }
+                else{
+                    char topElement = myStack.pop();
+                    if(topElement != hashMap[c]{
+                        return false
+                    }
                 }
             }
-
-            if(valid == false){
-                return false;
+            else{ // current char is an open bracket
+                myStack.push(c);
             }
         }
         return true;
