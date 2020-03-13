@@ -21,6 +21,7 @@ public:
 
         int j = 0;
 
+
         while(c != '\0'){
             for(int i = 0;i < strs.size(); i++){
                 c = strs[0][j];
