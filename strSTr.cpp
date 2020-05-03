@@ -30,6 +30,14 @@ public:
     }
 
     int strStrKMP(string haystack, string needle){
+        if(!needle.size()){
+            return 0;
+        }
+        if(!haystack.size() || haystack.size() < needle.size()){
+            return -1;
+        }
+
+        // Make prefix length array
         int prefixLen = 0;
         int needleLen = needle.size();
 
@@ -46,22 +54,37 @@ public:
 
             prefixLenArray[i+1] = prefixLen;
         }
-
         for(int i : prefixLenArray){
-            std::cout << i << '\n'; 
+            std::cout << i << ' '; 
         }
-        return 0;
+        std::cout << '\n';
+        // End making prefix length array
+
+        int i = 0;
+        for(; i <= haystack.size() - needle.size(); i++){
+            int j = 0;
+            for(; j < needle.size(); j++){
+                if(haystack[i+j] != needle[j]){
+                    i = j - prefixLenArray[j];
+                    std::cout << i << ' ' << j << '\n';
+                    break;
+                }
+            }
+            if(j == needle.size()){
+                return i;
+            }
+        }
+        return -1;
     }
 };
 
 int main(){
     Solution solution;
 
-    string haystack = "bbbbaaaabb";
-    string needle = "abcxxxabcy";
+    string haystack = "abcxxxabcy";
+    string needle = "bba";
     
-    //std::cout << solution.strStrBruteForce(haystack, needle) << '\n';
 
-    int a = solution.strStrKMP(haystack, needle);
+    std::cout << solution.strStrKMP(haystack, needle) << '\n';
     return 0;
 }
